@@ -268,12 +268,28 @@
         <button class="submit-button" onclick="entrar()">Entrar</button>
     </div>
 
-    <!-- Página com Galeria de Imagens -->
-    <div id="galleryPage" class="hidden">
-        <h2>Escolha uma imagem</h2>
-        <div class="gallery" id="gallery"></div>
-        <button class="back-button" onclick="showPage('main')">Voltar</button>
-    </div>
+    <!-- Galeria de Imagens na Página de Atividades -->
+<div id="galleryPage" class="hidden">
+    <h2>Escolha uma imagem</h2>
+    <div class="gallery" id="gallery"></div>
+    <button class="back-button" onclick="showPage('main')">Voltar</button>
+</div>
+
+<script>
+    // Função para carregar a galeria de imagens
+    function loadGallery() {
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = ''; // Limpa a galeria antes de carregar
+        for (let i = 1; i <= 100; i++) {
+            const img = document.createElement('img');
+            img.src = `imagens/imagem${i}.jpg`; // Caminho da imagem na pasta 'imagens'
+            img.alt = `Imagem ${i}`;
+            img.onclick = () => selectImage(img.src); // Define uma função para selecionar a imagem
+            gallery.appendChild(img);
+        }
+    }
+</script>
+
 
     <!-- Página Ampliada para Escrever História -->
     <div id="storyPage" class="hidden">
