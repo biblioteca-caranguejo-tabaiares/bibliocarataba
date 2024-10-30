@@ -281,15 +281,36 @@
     function loadGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = ''; // Limpa a galeria antes de carregar
+        const extensions = ['jpg', 'png', 'jfif']; // Extensões aceitas
+        
         for (let i = 1; i <= 100; i++) { // Ajuste o número conforme necessário
-            const img = document.createElement('img');
-            img.src = `imagens/imagem${i}.jpg`; // Caminho para cada imagem
-            img.alt = `Imagem ${i}`;
-            img.onclick = () => selectImage(img.src);
-            gallery.appendChild(img);
+            let imgFound = false;
+            
+            for (let ext of extensions) {
+                const img = document.createElement('img');
+                img.src = `imagens/imagem${i}.${ext}`; // Caminho com a extensão atual
+                img.alt = `Imagem ${i}`;
+                
+                // Tenta carregar a imagem; se falhar, testa a próxima extensão
+                img.onerror = function () {
+                    imgFound = false;
+                };
+                
+                img.onload = function () {
+                    if (!imgFound) {
+                        img.onclick = () => selectImage(img.src);
+                        gallery.appendChild(img);
+                        imgFound = true;
+                    }
+                };
+                
+                // Se já encontrou a imagem com uma das extensões, interrompe o loop
+                if (imgFound) break;
+            }
         }
     }
 </script>
+
 
 
     <!-- Página Ampliada para Escrever História -->
