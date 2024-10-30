@@ -269,6 +269,7 @@
     </div>
 
     <!-- Galeria de Imagens na Página de Atividades -->
+<!-- Página com Galeria de Imagens -->
 <div id="galleryPage" class="hidden">
     <h2>Escolha uma imagem</h2>
     <div class="gallery" id="gallery"></div>
@@ -280,11 +281,11 @@
     function loadGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = ''; // Limpa a galeria antes de carregar
-        for (let i = 1; i <= 100; i++) {
+        for (let i = 1; i <= 100; i++) { // Ajuste o número conforme necessário
             const img = document.createElement('img');
-            img.src = `imagens/imagem${i}.jpg`; // Caminho da imagem na pasta 'imagens'
+            img.src = `imagens/imagem${i}.jpg`; // Caminho para cada imagem
             img.alt = `Imagem ${i}`;
-            img.onclick = () => selectImage(img.src); // Define uma função para selecionar a imagem
+            img.onclick = () => selectImage(img.src);
             gallery.appendChild(img);
         }
     }
