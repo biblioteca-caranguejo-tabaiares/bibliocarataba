@@ -278,7 +278,7 @@
 
 <script>
     // Função para carregar a galeria de imagens
-    function loadGallery() {
+    async function loadGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = ''; // Limpa a galeria antes de carregar
         const extensions = ['jpg', 'png', 'jfif']; // Extensões aceitas
@@ -287,25 +287,24 @@
             let imgFound = false;
             
             for (let ext of extensions) {
-                const img = document.createElement('img');
-                img.src = `imagens/imagem${i}.${ext}`; // Caminho com a extensão atual
-                img.alt = `Imagem ${i}`;
+                const imgUrl = `imagens/imagem${i}.${ext}`;
                 
-                // Tenta carregar a imagem; se falhar, testa a próxima extensão
-                img.onerror = function () {
-                    imgFound = false;
-                };
-                
-                img.onload = function () {
-                    if (!imgFound) {
+                try {
+                    // Verifica se a imagem existe
+                    const response = await fetch(imgUrl, { method: 'HEAD' });
+                    
+                    if (response.ok) { // Imagem existe
+                        const img = document.createElement('img');
+                        img.src = imgUrl;
+                        img.alt = `Imagem ${i}`;
                         img.onclick = () => selectImage(img.src);
                         gallery.appendChild(img);
                         imgFound = true;
+                        break; // Interrompe o loop de extensões ao encontrar a imagem
                     }
-                };
-                
-                // Se já encontrou a imagem com uma das extensões, interrompe o loop
-                if (imgFound) break;
+                } catch (error) {
+                    // Ignora erros (caso a imagem não exista) e continua
+                }
             }
         }
     }
